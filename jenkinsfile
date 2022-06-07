@@ -1,65 +1,24 @@
+// this will start an executor on a Jenkins agent with the docker label
 pipeline {
-    agent any
-    tools {
-        go 'go1.18.2'
+  agent any
+  stages {
+    stage('build base image') {
+      steps {
+        sh 'make build-base'
+      }
     }
-    environment {
-        GO114MODULE = 'on'
-        CGO_ENABLED = 0 
-        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+    stage('run tests') {
+      steps {
+        sh 'make build-test'
+        sh 'make test-unit'
+        sh 'ls'
+        junit 'report/report.xml'
+      }
     }
-    stages {        
-        stage('Pre Test') {
-            steps {
-                echo 'Installing dependencies'
-                sh 'go version'
-                sh 'go get -u golang.org/x/lint/golint'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                echo 'Compiling and building'
-                sh 'go build'
-            }
-        }
-
-       
-        stage('Test') {
-            steps {
-                withEnv(["PATH+GO=${GOPATH}/bin"]){
-                    echo 'Running vetting'
-                    sh 'go vet .'
-                    echo 'Running linting'
-                    sh 'golint .'
-                    echo 'Running test'
-                    sh 'cd test && go test -v'
-                }
-            }
-        }
-         stage('Deploy') {
-            when {
-                branch 'master'
-            }
-            steps {
-                echo 'Deploy the app'
-              }
-         }
-                
-     }
-    post {
-        always {
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                to: "${params.RECIPIENTS}",
-                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-                
-         }
-        success {
-            slackSend color: '#27ae60', message: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", channel: 'jenkins'
-        }
-        failure {
-            slackSend color: '#e74c3c', message: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", channel: 'jenkins'
-        }
-    }  
+    stage('build image') {
+      steps {
+        sh 'make build'
+      }
+    }
+  }
 }
