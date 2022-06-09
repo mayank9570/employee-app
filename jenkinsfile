@@ -12,9 +12,9 @@ pipeline {
         stage('Publish image to Docker Hub') {
             steps {
             withDockerRegistry([credentialsId: "DockerHub", url: "https://hub.docker.com/repository/docker/mayanks95/employee-api" ]) {
-            sh  'docker push mayanks95/employee-api:latest'
+            sh 'docker push mayanks95/employee-api:latest'
             
-            sh  'docker push mayanks95/employee-api:$BUILD_NUMBER'
+            sh 'docker push mayanks95/employee-api:$BUILD_NUMBER'
         }
         
           }
