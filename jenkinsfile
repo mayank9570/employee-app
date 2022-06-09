@@ -2,20 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Docker Build and Tag') {
             steps {
                 sh 'docker build -t employee-api .'
+                sh 'docker tag employee-api mayanks95/employee-api:latest'
+                sh 'docker tag employee-api mayanks95/employee-api:$BUILD_NUMBER'
             }
         }
-        stage('Test') {
+        stage('Publish image to Docker Hub') {
             steps {
-            echo 'Testing'
-            }
+            withDockerRegistry([credentialsId: "dockerHub", url: "" ]) {
+            sh  'docker push mayanks95/employee-api:latest'
+            
+            sh  'docker push mayanks95/employee-api:$BUILD_NUMBER'
         }
-        stage('Deploy') {
+        
+          }
+        }
+        
+        stage('Run Docker container on Jenkins Agent') {
+             
             steps {
-                echo 'Deploying....'
+                sh "docker run -d -p 5050:5050 nikhilnidhi/nginxtest"
+ 
             }
         }
+ 
     }
 }
+        
+       
+              
+          
