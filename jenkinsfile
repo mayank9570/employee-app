@@ -1,24 +1,21 @@
-// this will start an executor on a Jenkins agent with the docker label
 pipeline {
-  agent any
-  stages {
-    stage('build base image') {
-      steps {
-        sh 'make build-base'
-      }
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'docker build -t employee-api .'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
     }
-    stage('run tests') {
-      steps {
-        sh 'make build-test'
-        sh 'make test-unit'
-        sh 'ls'
-        junit 'report/report.xml'
-      }
-    }
-    stage('build image') {
-      steps {
-        sh 'make build'
-      }
-    }
-  }
 }
