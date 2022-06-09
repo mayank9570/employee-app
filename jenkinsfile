@@ -11,14 +11,14 @@ pipeline {
         }
         stage('Publish image to Docker Hub') {
             steps {
-            withDockerRegistry([credentialsId: "-u mayanks95 -p mayank@9570", url: "https://hub.docker.com/repository/docker/mayanks95/employee-api" ]) {
+            sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570 '
             sh 'docker push mayanks95/employee-api:latest'
             
             sh 'docker push mayanks95/employee-api:$BUILD_NUMBER'
         }
         
           }
-        }
+        
         
         stage('Run Docker container on Jenkins Agent') {
              
@@ -28,7 +28,7 @@ pipeline {
             }
         }
  
-    }
+    
 }
         
        
