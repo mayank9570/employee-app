@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Docker Build and Tag') {
             steps {
-                 script{
+                 
                     def version = readFile('VERSION')
                     def versions = version.split('\\.')
                     def major = versions[0]
@@ -42,5 +42,5 @@ pipeline {
 }
         
        
-  }            
+            
           
