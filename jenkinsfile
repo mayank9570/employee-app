@@ -4,17 +4,27 @@ pipeline {
     stages {
         stage('Docker Build and Tag') {
             steps {
+                 script{
+                    def version = readFile('VERSION')
+                    def versions = version.split('\\.')
+                    def major = versions[0]
+                    def minor = versions[0] + '.' + versions[1]
+                    def patch = version.trim()
+            
                 sh 'docker build -t employee-api .'
                 sh 'docker tag employee-api mayanks95/employee-api:latest'
-                sh 'docker tag employee-api mayanks95/employee-api:$BUILD_NUMBER'
+                
             }
         }
         stage('Publish image to Docker Hub') {
             steps {
             sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570 '
             sh 'docker push mayanks95/employee-api:latest'
-            
-            sh 'docker push mayanks95/employee-api:$BUILD_NUMBER'
+            sh 'docker push mayanks95/employee-api:major'
+             sh 'docker push mayanks95/employee-api:minor'
+              sh 'docker push mayanks95/employee-api:patch'
+             
+             
         }
         
           }
