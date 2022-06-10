@@ -11,7 +11,7 @@ COPY go.mod ./
 COPY go.sum ./
 
 RUN go mod download
-
+COPY VERSION ./
 COPY ./ ./
 RUN go mod download
 RUN go build -o ./employee-api
