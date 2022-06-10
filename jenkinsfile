@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Docker Build and Tag') {
             steps {
-                 
+                 script{
                     def version = readFile('VERSION')
                     def versions = version.split('\\.')
                     def major = versions[0]
@@ -13,7 +13,7 @@ pipeline {
             
                 sh 'docker build -t employee-api .'
                 sh 'docker tag employee-api mayanks95/employee-api:latest'
-                
+               } 
             }
         }
         stage('Publish image to Docker Hub') {
