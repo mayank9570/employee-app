@@ -11,8 +11,8 @@ pipeline {
                     def minor = versions[0] + '.' + versions[1]
                     def patch = version.trim()
             
-                sh 'docker build -t employee-api .'
-                sh 'docker tag employee-api mayanks95/employee-api:latest'
+                sh 'docker build -t employee-api:latest .'
+               
                } 
             }
         }
