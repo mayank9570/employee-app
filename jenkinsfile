@@ -2,20 +2,21 @@
       agent any
       
       stages {
-           stages('Docker Build and Tag') {
+      
+           stage('Docker Build and Tag') {
            steps {
            sh 'docker build -t employee-api .'
            sh 'docker tag employee-api mayanks95/employee-api:v1.0.0'
            }
         }
-        stages('Publish image to Docker Hub') {
+        stage('Publish image to Docker Hub') {
              steps {
              sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570'
              sh 'docker push mayanks95/employee-api:v1.0.0'
              
              }
          }
-         stages('Run Docker container on Jenkins Agent') {
+         stage('Run Docker container on Jenkins Agent') {
          
              steps {
                  sh "docker run -d -p 5050:5050 mayanks95/employee-api"
