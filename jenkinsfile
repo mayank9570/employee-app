@@ -5,7 +5,7 @@
       
            stage('Docker Build and Tag') {
            steps {
-                     
+                    script{ 
                     def version = readFile('VERSION')
                     def versions = version.split('\\.')
                     def major = versions[0]
@@ -14,7 +14,8 @@
            sh 'docker build -t employee-api .'
            sh 'docker tag employee-api mayanks95/employee-api:v1.0.0'
            }
-        }
+         }
+      }
         stage('Publish image to Docker Hub') {
              steps {
              sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570'
