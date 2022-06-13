@@ -18,6 +18,15 @@
                         }
                     }
                 }
+                
+                stage('Run Docker Container on jenkins Agent') {
+                
+                steps {
+                
+                    sh "docker run -d -p 5050:5050 mayanks95/employee-api"
+                    }
+                  }
+                
             }
         }
         
