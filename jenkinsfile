@@ -14,9 +14,7 @@
            sh 'docker build -t employee-api .'
            sh 'docker tag employee-api mayanks95/employee-api:latest'
           
-        stage('Publish image to Docker Hub') {
-             steps {
-             sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570'
+           sh 'echo $dockerhub_PSW |docker login -u mayanks95 -p mayank@9570'
              image.push()
              image.push(major)
              image.push(minor)
@@ -24,8 +22,8 @@
             }
          }
       }
-    }
- }
+    
+ 
          stage('Run Docker container on Jenkins Agent') {
          
              steps {
