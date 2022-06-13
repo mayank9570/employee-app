@@ -5,6 +5,12 @@
       
            stage('Docker Build and Tag') {
            steps {
+                     
+                    def version = readFile('VERSION')
+                    def versions = version.split('\\.')
+                    def major = versions[0]
+                    def minor = versions[0] + '.' + versions[1]
+                    def patch = version.trim()
            sh 'docker build -t employee-api .'
            sh 'docker tag employee-api mayanks95/employee-api:v1.0.0'
            }
