@@ -47,6 +47,7 @@ func CreateEmployee() http.HandlerFunc {
 			Location: employee.Location,
 			Title:    employee.Title,
 			Email:    employee.Email,
+			Phone:    employee.Phone,
 		}
 		result, err := employeeCollection.InsertOne(ctx, newEmployee)
 		if err != nil {
