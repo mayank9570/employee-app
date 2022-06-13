@@ -9,7 +9,7 @@
                         def major = versions[0]
                         def minor = versions[0] + '.' + versions[1]
                         def patch = version.trim()
-                        docker login -u mayanks95 -p mayank@9570 {
+                        sh 'echo $dockerhub_psw |docker login -u mayanks95 -p mayank@9570 {
                             def image = docker.build('mayanks95/employee-api:latest')
                             image.push()
                             image.push(major)
