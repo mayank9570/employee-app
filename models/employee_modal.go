@@ -8,5 +8,5 @@ type Employee struct {
 	Location string             `json:"location,omitempty" validate:"required"`
 	Title    string             `json:"title,omitempty" validate:"required"`
 	Email    string             `json:"email,omitempty" validate:"required"`
-        Phone    Integer               `json:"phone,omitempty" validate:"required"`
+        Phone    Int              `json:"phone,omitempty" validate:"required"`
 }
