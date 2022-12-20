@@ -31,7 +31,7 @@ jobs:
         run: go build -c release
         
       - name: docker build
-        run: docker build -t employee-api -f dockerfile
+        run: docker build -t employee-api -f dockerfile .
         
       - name: docker login
         run: docker login --username '${{secrets.docker_login}}' --password '${{secrets.docker_password}}
