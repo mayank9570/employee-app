@@ -37,11 +37,11 @@ jobs:
         run: docker login --username '${{secrets.docker_login}}' --password '${{secrets.docker_password}}
         
       - name: tag docker image
-        run: docker tag employee-api '${{secrets.docker_login}}'/employee-api:'${{BUILD_NUMBER}}'
+        run: docker tag employee-api '${{secrets.docker_login}}'/employee-api:v1.0
         
         
       - name: push docker image
-        run: docker push '${{secrets.docker_login}}'/employee-api:'${{BUILD_NUMBER}}'
+        run: docker push '${{secrets.docker_login}}'/employee-api:v1.0
         
         
       - name: Azure Kubernetes set context
