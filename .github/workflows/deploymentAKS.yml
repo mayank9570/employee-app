@@ -81,7 +81,7 @@ jobs:
           manifests: k8s/deployment.yml
                      sk8/service.yml
           # Fully qualified resource URL of the image(s) to be used for substitutions on the manifest files Example: contosodemo.azurecr.io/helloworld:test
-          images: '${{secrets.docker_login}}/employee-api:v1.0
+          images: '${{secrets.docker_login}}/employee-api:v1.0'
           # Name of a docker-registry secret that has already been set up within the cluster. Each of these secret names are added under imagePullSecrets field for the workloads found in the input manifest files
           imagepullsecrets: docker-image-pull-secret
           
