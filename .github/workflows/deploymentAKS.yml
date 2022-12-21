@@ -28,7 +28,7 @@ jobs:
       
       - name: go build
       
-        run: go build -o main *.go
+        run: go build -o 
         
       - name: docker build
         run: docker build -t employee-api -f dockerfile .
